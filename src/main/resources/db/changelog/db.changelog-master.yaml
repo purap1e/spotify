@@ -1,0 +1,6 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: bulegenov.daniyar
+      sqlFile:
+        path: db/changelog/sql_scripts/1_initial.sql

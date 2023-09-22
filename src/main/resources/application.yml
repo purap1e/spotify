@@ -1,0 +1,29 @@
+server:
+  port: 12565
+
+spring:
+  application:
+    name: spotify-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/spotify
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+jwt:
+  secret: jdksladklsajdlkasdjlsadkasl
+  expiresAt: 1800000
