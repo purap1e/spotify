@@ -1,5 +1,6 @@
-package com.example.spotify.models;
+package com.example.spotify.models.user;
 
+import com.example.spotify.models.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ import static javax.persistence.FetchType.EAGER;
 @Setter
 @Entity
 @Table(name = "users")
-public class UserSpotify extends BaseEntity{
+public class UserSpotify extends BaseEntity {
 
     @Column
     private String email;
@@ -30,6 +31,4 @@ public class UserSpotify extends BaseEntity{
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
-
-
 }

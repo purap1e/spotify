@@ -1,4 +1,4 @@
-package com.example.spotify.models;
+package com.example.spotify.models.music;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +9,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "genres")
+public class Genre {
     @Id
     @Column
     @GeneratedValue

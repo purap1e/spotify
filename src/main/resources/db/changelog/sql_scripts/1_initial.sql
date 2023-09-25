@@ -5,8 +5,8 @@ create table users
         primary key,
     created_at timestamp,
     updated_at timestamp,
-    email varchar(255),
-    username varchar(255),
+    email varchar(255) unique,
+    username varchar(255) unique,
     password   varchar(255)
 );
 

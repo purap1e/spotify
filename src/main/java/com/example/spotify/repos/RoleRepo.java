@@ -1,6 +1,6 @@
 package com.example.spotify.repos;
 
-import com.example.spotify.models.Role;
+import com.example.spotify.models.user.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
