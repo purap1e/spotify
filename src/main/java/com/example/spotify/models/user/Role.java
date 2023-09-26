@@ -1,10 +1,13 @@
 package com.example.spotify.models.user;
 
+import com.example.spotify.models.enums.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.UUID;
+
+import static javax.persistence.EnumType.STRING;
 
 @Getter
 @Setter
@@ -17,5 +20,6 @@ public class Role {
     private UUID id;
 
     @Column
-    private String name;
+    @Enumerated(STRING)
+    private RoleName name;
 }

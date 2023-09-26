@@ -1,16 +1,14 @@
 package com.example.spotify.services;
 
-import com.example.spotify.dto.UserRequest;
-import com.example.spotify.models.user.Role;
-import com.example.spotify.models.user.UserSpotify;
+import com.example.spotify.dto.*;
+import com.example.spotify.models.user.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public interface UserService {
-    UserSpotify save(UserRequest userRequest);
+    UserDTO save(UserRequest userRequest);
     Role save(Role role);
     void addRoleToUser(UUID id, String roleName);
     UserSpotify get(UUID id);
-    List<UserSpotify> getAll();
+    List<UserDTO> getAll();
 }

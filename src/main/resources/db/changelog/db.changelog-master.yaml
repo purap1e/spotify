@@ -4,3 +4,8 @@ databaseChangeLog:
       author: bulegenov.daniyar
       sqlFile:
         path: db/changelog/sql_scripts/1_initial.sql
+  - changeSet:
+      id: 2
+      author: bulegenov.daniyar
+      sqlFile:
+        path: db/changelog/sql_scripts/2_create_tables_muic.sql

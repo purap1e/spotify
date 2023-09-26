@@ -1,7 +1,9 @@
 package com.example.spotify.services.impl;
 
-import com.example.spotify.dto.UserRequest;
+import com.example.spotify.dto.*;
 import com.example.spotify.exceptions.FieldAlreadyExistsException;
+import com.example.spotify.mappers.*;
+import com.example.spotify.models.enums.*;
 import com.example.spotify.models.user.Role;
 import com.example.spotify.models.user.UserSpotify;
 import com.example.spotify.repos.RoleRepo;
@@ -35,8 +37,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
     private final PasswordEncoder passwordEncoder;
+    private final UserDTOMapper userDTOMapper;
+
     @Override
-    public UserSpotify save(UserRequest userRequest) {
+    public UserDTO save(UserRequest userRequest) {
         UserSpotify userSpotify = new UserSpotify();
         userSpotify.setEmail(userRequest.getEmail());
         userSpotify.setUsername(userRequest.getUsername());
@@ -49,7 +53,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         log.info("Saving new user {} to the database", userSpotify.getUsername());
-        return userRepo.save(userSpotify);
+        return userDTOMapper.apply(userRepo.save(userSpotify));
     }
 
     @Override
@@ -62,7 +66,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void addRoleToUser(UUID id, String roleName) {
         log.info("Adding role {} to user {}", roleName, id);
         UserSpotify user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("user not found"));
-        Role role = roleRepo.findByName(roleName);
+        Role role = roleRepo.findByName(RoleName.valueOf(roleName));
         if (!user.getRoles().contains(role)) {
             user.getRoles().add(role);
         } else {
@@ -77,9 +81,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<UserSpotify> getAll() {
+    public List<UserDTO> getAll() {
         log.info("Fetching all users from the database");
-        return userRepo.findAll();
+        return userRepo.findAll().stream().map(userDTOMapper).toList();
     }
 
     @Override
@@ -93,7 +97,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         userSpotify.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            authorities.add(new SimpleGrantedAuthority(role.getName().name()));
         });
         return new User(userSpotify.getUsername(), userSpotify.getPassword(), authorities);
     }

@@ -19,7 +19,7 @@ public class Singer extends BaseEntity {
     @Column
     private String name;
 
-    @Column
+    @JoinColumn(name = "link_id")
     @OneToOne(fetch = EAGER, cascade = ALL)
     private Link link;
 }

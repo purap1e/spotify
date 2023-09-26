@@ -1,15 +1,13 @@
 package com.example.spotify.controllers;
 
-import com.example.spotify.dto.UserRequest;
-import com.example.spotify.models.user.Role;
-import com.example.spotify.models.user.UserSpotify;
-import com.example.spotify.services.UserService;
-import lombok.RequiredArgsConstructor;
+import com.example.spotify.dto.*;
+import com.example.spotify.models.user.*;
+import com.example.spotify.services.*;
+import lombok.*;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.UUID;
+import javax.validation.*;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -19,12 +17,12 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public List<UserSpotify> getAll() {
+    public List<UserDTO> getAll() {
         return userService.getAll();
     }
 
     @PostMapping("/save")
-    public UserSpotify create(@RequestBody @Valid UserRequest userRequest) {
+    public UserDTO create(@RequestBody @Valid UserRequest userRequest) {
         return userService.save(userRequest);
     }
 

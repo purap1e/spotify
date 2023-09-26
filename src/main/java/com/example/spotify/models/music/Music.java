@@ -1,15 +1,14 @@
 package com.example.spotify.models.music;
 
-import com.example.spotify.models.BaseEntity;
-import com.example.spotify.models.Link;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
-import lombok.Setter;
+import com.example.spotify.models.*;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
+import org.hibernate.annotations.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
@@ -23,20 +22,22 @@ public class Music extends BaseEntity {
     @Column
     private String name;
 
-    @ManyToMany(fetch = EAGER, cascade = ALL)
+    @ManyToMany(cascade = ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "music_singers", joinColumns = @JoinColumn(name = "music_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "singer_id", referencedColumnName = "id"))
     private List<Singer> singers = new ArrayList<>();
 
     @Column(name = "date_of_creation")
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
-    private Date createdAt;
+    private Date dateOfCreation;
 
-    @Column(name = "link")
+    @JoinColumn(name = "link_id")
     @OneToOne(fetch = EAGER, cascade = ALL)
     private Link link;
 
-    @ManyToMany(fetch = EAGER, cascade = ALL)
+    @ManyToMany(cascade = ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "music_genres", joinColumns = @JoinColumn(name = "music_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
     private List<Genre> genres = new ArrayList<>();
