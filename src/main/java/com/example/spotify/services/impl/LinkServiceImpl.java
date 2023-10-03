@@ -1,7 +1,6 @@
 package com.example.spotify.services.impl;
 
-import com.example.spotify.models.*;
-import com.example.spotify.models.enums.*;
+import com.example.spotify.models.music.Link;
 import com.example.spotify.repos.*;
 import com.example.spotify.services.*;
 import lombok.*;

@@ -2,17 +2,19 @@ package com.example.spotify.controllers;
 
 import com.example.spotify.models.music.*;
 import com.example.spotify.services.*;
-import lombok.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/v1/singers")
 public class SingerController {
 
     private final SingerService singerService;
+
+    public SingerController(SingerService singerService) {
+        this.singerService = singerService;
+    }
 
     @GetMapping("/pagination/{offset}/{pageSize}")
     public List<Singer> getAll(@RequestParam String name,

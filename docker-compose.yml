@@ -10,3 +10,32 @@ services:
       POSTGRES_DB: spotify
     ports:
       - "5432:5432"
+    networks:
+      - stack
+
+  kibana:
+    image: kibana:7.16.2
+    hostname: kibana
+    container_name: kibana
+    ports:
+      - "127.0.0.1:5601:5601"
+    networks:
+      - stack
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: elasticsearch:7.16.2
+    hostname: elasticsearch
+    container_name: elasticsearch
+    restart: always
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.type=single-node"
+    ports:
+      - "127.0.0.1:9200:9200"
+    networks:
+      - stack
+
+networks:
+  stack: {}

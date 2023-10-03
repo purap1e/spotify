@@ -3,7 +3,6 @@ package com.example.spotify.controllers;
 import com.example.spotify.dto.*;
 import com.example.spotify.models.user.*;
 import com.example.spotify.services.*;
-import lombok.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.*;
@@ -11,10 +10,13 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     public List<UserDTO> getAll() {
