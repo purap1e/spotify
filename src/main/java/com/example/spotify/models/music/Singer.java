@@ -3,9 +3,7 @@ package com.example.spotify.models.music;
 import com.example.spotify.models.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.*;
 
 import javax.persistence.*;
 
@@ -16,14 +14,14 @@ import static javax.persistence.FetchType.EAGER;
 @Setter
 @Entity
 @Table(name = "singers")
-@Document(indexName = "singers")
 public class Singer extends BaseEntity {
 
-    @Column(name = "name")
-    private String searchSimilar;
+    @Column
+    @Field(type = FieldType.Text, fielddata = true)
+    private String name;
 
     @JoinColumn(name = "link_id")
     @OneToOne(fetch = EAGER, cascade = ALL)
-    @Field(type = FieldType.Nested)
+    @Field(type = FieldType.Nested, includeInParent = true)
     private Link link;
 }

@@ -16,11 +16,9 @@ public class SingerController {
         this.singerService = singerService;
     }
 
-    @GetMapping("/pagination/{offset}/{pageSize}")
-    public List<Singer> getAll(@RequestParam String name,
-                               @PathVariable int offset,
-                               @PathVariable int pageSize) {
-        return singerService.getAll(name, offset, pageSize);
+    @GetMapping
+    public List<Singer> getAll() {
+        return singerService.getAll();
     }
 
     @PostMapping("/save")

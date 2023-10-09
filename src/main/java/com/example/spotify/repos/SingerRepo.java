@@ -1,17 +1,11 @@
 package com.example.spotify.repos;
 
-import com.example.spotify.models.music.Singer;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.annotations.Query;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import org.springframework.stereotype.Repository;
+import com.example.spotify.models.music.*;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
-public interface SingerRepo extends ElasticsearchRepository<Singer, UUID> {
-
-    @Query("{\"fuzzy\": {\"searchSimilar\": \"?0\"}}")
-    List<Singer> findBySearchSimilar(String searchSimilar, Pageable pageable);
+public interface SingerRepo extends JpaRepository<Singer, UUID> {
 }

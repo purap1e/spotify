@@ -48,17 +48,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             return cors;
         }).and();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests()
-                        .antMatchers(
-                                "/api/v1/auth/login",
-                                "/api/v1/auth/logout").permitAll()
-                        .antMatchers(
-                                "/api/v1/users/save",
-                                "/api/v1/users/add-role",
-                                "/api/v1/users/add-role-to-user",
-                                "/api/v1/links/save",
-                                "/api/v1/singers/save").hasAuthority(RoleName.ADMIN.name())
-                        .anyRequest().authenticated();
+        http.authorizeRequests().anyRequest().permitAll();
+//                        .antMatchers(
+//                                "/api/v1/auth/login",
+//                                "/api/v1/auth/logout").permitAll()
+//                        .antMatchers(
+//                                "/api/v1/users/save",
+//                                "/api/v1/users/add-role",
+//                                "/api/v1/users/add-role-to-user",
+//                                "/api/v1/links/save",
+//                                "/api/v1/singers/save").hasAuthority(RoleName.ADMIN.name())
+//                        .anyRequest().authenticated();
         http.addFilter(jwtAuthorizationFilter());
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean(), jwtProperties));
         http.addFilterBefore(new CustomAuthorizationFilter(jwtProperties), UsernamePasswordAuthenticationFilter.class);

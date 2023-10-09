@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class UserRequest {
+public class  UserRequest {
 
     @Email(message = "Invalid email")
     private String email;

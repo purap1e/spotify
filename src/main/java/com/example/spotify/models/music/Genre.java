@@ -20,6 +20,5 @@ public class Genre {
     private UUID id;
 
     @Column
-    @Enumerated(STRING)
-    private GenreName name;
+    private String name;
 }

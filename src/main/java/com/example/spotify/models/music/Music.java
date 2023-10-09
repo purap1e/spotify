@@ -4,7 +4,6 @@ import com.example.spotify.models.*;
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.hibernate.annotations.*;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -18,11 +17,10 @@ import static javax.persistence.FetchType.EAGER;
 @Setter
 @Entity
 @Table(name = "musics")
-@Document(indexName = "musics")
 public class Music extends BaseEntity {
 
-    @Column(name = "name")
-    private String searchSimilar;
+    @Column
+    private String name;
 
     @ManyToMany(cascade = ALL)
     @LazyCollection(LazyCollectionOption.FALSE)

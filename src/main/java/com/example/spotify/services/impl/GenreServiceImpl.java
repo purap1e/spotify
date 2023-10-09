@@ -6,7 +6,7 @@ import com.example.spotify.services.GenreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -27,5 +27,11 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public Genre get(UUID id) {
         return genreRepo.findById(id).orElseThrow(() -> new RuntimeException("genre not found"));
+    }
+
+    @Override
+    public List<Genre> getAll() {
+        log.info("Fetching all genres");
+        return genreRepo.findAll();
     }
 }
