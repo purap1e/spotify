@@ -1,9 +1,10 @@
-create table links
+create table images
 (
     id         uuid
         primary key,
-    link varchar(255),
-    type varchar(255)
+    name varchar(255),
+    type varchar(255),
+    data oid
 );
 
 create table singers
@@ -13,8 +14,8 @@ create table singers
     created_at timestamp,
     updated_at timestamp,
     name varchar(255),
-    link_id uuid,
-    FOREIGN KEY (link_id) REFERENCES links(id)
+    image_id uuid,
+    FOREIGN KEY (image_id) REFERENCES images(id)
 );
 
 create table genres
@@ -32,8 +33,9 @@ create table musics
     updated_at timestamp,
     name varchar(255),
     date_of_creation timestamp,
-    link_id uuid,
-    FOREIGN KEY (link_id) REFERENCES links(id)
+    link varchar(255),
+    image_id uuid,
+    FOREIGN KEY (image_id) REFERENCES images(id)
 );
 
 

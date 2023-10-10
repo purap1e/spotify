@@ -32,9 +32,9 @@ public class Music extends BaseEntity {
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date dateOfCreation;
 
-    @JoinColumn(name = "link_id")
+    @JoinColumn(name = "image_id")
     @OneToOne(fetch = EAGER, cascade = ALL)
-    private Link link;
+    private Image image;
 
     @ManyToMany(cascade = ALL)
     @LazyCollection(LazyCollectionOption.FALSE)

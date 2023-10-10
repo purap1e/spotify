@@ -1,10 +1,13 @@
 package com.example.spotify.controllers;
 
+import com.example.spotify.dto.MusicDTO;
+import com.example.spotify.dto.MusicRequest;
 import com.example.spotify.es_models.ESMusic;
 import com.example.spotify.models.music.*;
 import com.example.spotify.services.*;
 import lombok.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -16,8 +19,9 @@ public class MusicController {
     private final MusicService musicService;
 
     @PostMapping("/save")
-    public Music save(@RequestBody Music music) {
-        return musicService.save(music);
+    public MusicDTO save(@RequestBody MusicRequest musicRequest,
+                         @RequestParam MultipartFile image) {
+        return musicService.save(musicRequest, image);
     }
 
     @PostMapping("/add-singer")

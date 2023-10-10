@@ -1,8 +1,10 @@
 package com.example.spotify.controllers;
 
+import com.example.spotify.dto.SingerDTO;
 import com.example.spotify.models.music.*;
 import com.example.spotify.services.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -22,8 +24,9 @@ public class SingerController {
     }
 
     @PostMapping("/save")
-    public Singer create(@RequestBody Singer singer) {
-        return singerService.save(singer);
+    public SingerDTO create(@RequestParam String name,
+                            @RequestParam MultipartFile image) {
+        return singerService.save(name, image);
     }
 
     @GetMapping("/{id}")

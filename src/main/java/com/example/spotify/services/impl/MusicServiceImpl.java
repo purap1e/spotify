@@ -1,7 +1,10 @@
 package com.example.spotify.services.impl;
 
+import com.example.spotify.dto.MusicDTO;
+import com.example.spotify.dto.MusicRequest;
 import com.example.spotify.es_models.ESMusic;
 import com.example.spotify.es_repos.ESMusicRepo;
+import com.example.spotify.mappers.MusicDTOMapper;
 import com.example.spotify.models.music.Genre;
 import com.example.spotify.models.music.Music;
 import com.example.spotify.models.music.Singer;
@@ -9,13 +12,17 @@ import com.example.spotify.repos.MusicRepo;
 import com.example.spotify.services.GenreService;
 import com.example.spotify.services.MusicService;
 import com.example.spotify.services.SingerService;
+import com.example.spotify.utils.ImageUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class MusicServiceImpl implements MusicService {
 
@@ -23,24 +30,32 @@ public class MusicServiceImpl implements MusicService {
     private final ESMusicRepo esMusicRepo;
     private final SingerService singerService;
     private final GenreService genreService;
+    private final MusicDTOMapper musicDTOMapper;
 
-    public MusicServiceImpl(MusicRepo musicRepo, ESMusicRepo esMusicRepo, SingerService singerService, GenreService genreService) {
-        this.musicRepo = musicRepo;
-        this.esMusicRepo = esMusicRepo;
-        this.singerService = singerService;
-        this.genreService = genreService;
-    }
 
     @Override
-    public Music save(Music music) {
+    public MusicDTO save(MusicRequest musicRequest, MultipartFile image) {
         log.info("Saving new music to the database");
-        Music music1 = musicRepo.save(music);
 
+        Music music = new Music();
+        music.setName(musicRequest.getName());
+        music.setSingers(musicRequest.getListOfSingersId()
+                .stream()
+                .map(singerService::get)
+                .toList());
+        music.setGenres(musicRequest.getListOfGenresId()
+                .stream()
+                .map(genreService::get)
+                .toList());
+        music.setDateOfCreation(musicRequest.getDate());
+        music.setImage(ImageUtils.compressImage(image));
+
+        Music music1 = musicRepo.save(music);
         ESMusic esMusic = new ESMusic();
         esMusic.setName(music1.getName());
         esMusic.setMusicId(music1.getId());
         esMusicRepo.save(esMusic);
-        return music1;
+        return musicDTOMapper.apply(music1);
     }
 
     @Override

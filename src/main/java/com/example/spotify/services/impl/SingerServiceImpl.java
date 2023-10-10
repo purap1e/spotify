@@ -1,27 +1,35 @@
 package com.example.spotify.services.impl;
 
+import com.example.spotify.dto.SingerDTO;
+import com.example.spotify.mappers.SingerDTOMapper;
+import com.example.spotify.models.Image;
 import com.example.spotify.models.music.*;
 import com.example.spotify.repos.*;
 import com.example.spotify.services.*;
+import com.example.spotify.utils.ImageUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.*;
 import org.springframework.stereotype.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class SingerServiceImpl implements SingerService {
 
     private final SingerRepo singerRepo;
-
-    public SingerServiceImpl(SingerRepo singerRepo) {
-        this.singerRepo = singerRepo;
-    }
+    private final SingerDTOMapper singerDTOMapper;
 
     @Override
-    public Singer save(Singer singer) {
+    public SingerDTO save(String name, MultipartFile image) {
         log.info("Saving new singer to the database");
-        return singerRepo.save(singer);
+        Singer singer = new Singer();
+        singer.setName(name);
+        singer.setImage(ImageUtils.compressImage(image));
+        return singerDTOMapper.apply(singerRepo.save(singer));
     }
 
     @Override
