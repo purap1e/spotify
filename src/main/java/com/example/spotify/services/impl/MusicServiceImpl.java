@@ -34,7 +34,7 @@ public class MusicServiceImpl implements MusicService {
 
 
     @Override
-    public MusicDTO save(MusicRequest musicRequest, MultipartFile image) {
+    public MusicDTO save(MusicRequest musicRequest) {
         log.info("Saving new music to the database");
 
         Music music = new Music();
@@ -48,7 +48,7 @@ public class MusicServiceImpl implements MusicService {
                 .map(genreService::get)
                 .toList());
         music.setDateOfCreation(musicRequest.getDate());
-        music.setImage(ImageUtils.compressImage(image));
+//        music.setImage(ImageUtils.compressImage(image));
 
         Music music1 = musicRepo.save(music);
         ESMusic esMusic = new ESMusic();

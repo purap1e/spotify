@@ -19,9 +19,8 @@ public class MusicController {
     private final MusicService musicService;
 
     @PostMapping("/save")
-    public MusicDTO save(@RequestBody MusicRequest musicRequest,
-                         @RequestParam MultipartFile image) {
-        return musicService.save(musicRequest, image);
+    public MusicDTO save(@RequestBody MusicRequest musicRequest) {
+        return musicService.save(musicRequest);
     }
 
     @PostMapping("/add-singer")

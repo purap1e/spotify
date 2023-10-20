@@ -23,7 +23,8 @@ public class MusicDTOMapper implements Function<Music, MusicDTO> {
                 music.getName(),
                 music.getSingers().stream().map(singerDTOMapper).toList(),
                 music.getDateOfCreation(),
-                ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + Api.GET_IMAGE + music.getImage().getId(),
+                "dsadsa",
+//                ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + Api.GET_IMAGE + music.getImage().getId(),
                 music.getGenres().stream().map(Genre::getName).toList()
         );
     }
