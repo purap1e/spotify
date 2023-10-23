@@ -6,6 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 import java.util.List;
+
 public interface ESMusicRepo extends ElasticsearchRepository<ESMusic, String> {
     @Query("{\"match_phrase_prefix\": {\"name\": {\"query\": \"?0\"}}}")
     List<ESMusic> findByName(String name, Pageable pageable);

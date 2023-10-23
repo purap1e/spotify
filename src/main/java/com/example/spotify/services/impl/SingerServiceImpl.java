@@ -2,18 +2,17 @@ package com.example.spotify.services.impl;
 
 import com.example.spotify.dto.SingerDTO;
 import com.example.spotify.mappers.SingerDTOMapper;
-import com.example.spotify.models.Image;
-import com.example.spotify.models.music.*;
-import com.example.spotify.repos.*;
-import com.example.spotify.services.*;
+import com.example.spotify.models.music.Singer;
+import com.example.spotify.repos.SingerRepo;
+import com.example.spotify.services.SingerService;
 import com.example.spotify.utils.ImageUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.*;
-import org.springframework.stereotype.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

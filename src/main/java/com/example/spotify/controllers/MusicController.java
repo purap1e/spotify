@@ -23,6 +23,12 @@ public class MusicController {
         return musicService.save(musicRequest);
     }
 
+    @PutMapping("/{id}")
+    public MusicDTO addImage(@PathVariable UUID id,
+                             @RequestParam MultipartFile image) {
+        return musicService.addImage(id, image);
+    }
+
     @PostMapping("/add-singer")
     public Music addSinger(@RequestParam UUID musicId,
                            @RequestParam UUID singerId) {
@@ -40,5 +46,11 @@ public class MusicController {
                                                     @PathVariable int offset,
                                                     @PathVariable int pageSize) {
         return musicService.getAll(name, offset, pageSize);
+    }
+
+    @GetMapping("/with-fields")
+    public List<ESMusic> getAllWithFields(@RequestParam String name,
+                                          @RequestParam UUID id) {
+        return musicService.searchMusicsByMoreThanOneField(name, id);
     }
 }

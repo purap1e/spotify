@@ -9,9 +9,11 @@ import java.util.UUID;
 
 @Getter
 public class MusicRequest {
+
     private String name;
     private List<UUID> listOfSingersId;
     private List<UUID> listOfGenresId;
+    private String audioUrl;
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date date;

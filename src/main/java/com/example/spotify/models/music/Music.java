@@ -36,6 +36,9 @@ public class Music extends BaseEntity {
     @OneToOne(fetch = EAGER, cascade = ALL)
     private Image image;
 
+    @Column(name = "audio_url")
+    private String audioUrl;
+
     @ManyToMany(cascade = ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "music_genres", joinColumns = @JoinColumn(name = "music_id", referencedColumnName = "id"),

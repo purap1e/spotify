@@ -16,10 +16,6 @@ spring:
     show-sql: true
   main:
     allow-bean-definition-overriding: true
-  data:
-    elasticsearch:
-      cluster-names: spotify
-      cluster-node: localhost:9200
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
@@ -37,3 +33,7 @@ management:
 jwt:
   secret: jdksladklsajdlkasdjlsadkasl
   expiresAt: 1800000
+
+elasticsearch:
+  username: elastic
+  password: elastic

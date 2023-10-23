@@ -2,7 +2,6 @@ package com.example.spotify.configs;
 
 import com.example.spotify.filters.CustomAuthenticationFilter;
 import com.example.spotify.filters.CustomAuthorizationFilter;
-import com.example.spotify.models.enums.*;
 import com.example.spotify.properties.JwtProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

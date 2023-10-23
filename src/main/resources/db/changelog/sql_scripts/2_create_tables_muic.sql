@@ -35,6 +35,7 @@ create table musics
     date_of_creation timestamp,
     link varchar(255),
     image_id uuid,
+    audio_url varchar(255),
     FOREIGN KEY (image_id) REFERENCES images(id)
 );
 

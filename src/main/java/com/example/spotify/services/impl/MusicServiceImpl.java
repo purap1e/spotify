@@ -15,11 +15,20 @@ import com.example.spotify.services.SingerService;
 import com.example.spotify.utils.ImageUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +40,7 @@ public class MusicServiceImpl implements MusicService {
     private final SingerService singerService;
     private final GenreService genreService;
     private final MusicDTOMapper musicDTOMapper;
+    private final ElasticsearchRestTemplate elasticsearchRestTemplate;
 
 
     @Override
@@ -39,16 +49,10 @@ public class MusicServiceImpl implements MusicService {
 
         Music music = new Music();
         music.setName(musicRequest.getName());
-        music.setSingers(musicRequest.getListOfSingersId()
-                .stream()
-                .map(singerService::get)
-                .toList());
-        music.setGenres(musicRequest.getListOfGenresId()
-                .stream()
-                .map(genreService::get)
-                .toList());
+        music.setSingers(getSingers(musicRequest.getListOfSingersId()));
+        music.setGenres(getGenres(musicRequest.getListOfGenresId()));
+        music.setAudioUrl(musicRequest.getAudioUrl());
         music.setDateOfCreation(musicRequest.getDate());
-//        music.setImage(ImageUtils.compressImage(image));
 
         Music music1 = musicRepo.save(music);
         ESMusic esMusic = new ESMusic();
@@ -56,6 +60,22 @@ public class MusicServiceImpl implements MusicService {
         esMusic.setMusicId(music1.getId());
         esMusicRepo.save(esMusic);
         return musicDTOMapper.apply(music1);
+    }
+
+    private List<Singer> getSingers(List<UUID> uuids) {
+        return uuids.stream().map(singerService::get).toList();
+    }
+
+    private List<Genre> getGenres(List<UUID> uuids) {
+        return uuids.stream().map(genreService::get).toList();
+    }
+
+    @Override
+    public MusicDTO addImage(UUID id, MultipartFile image) {
+        log.info("Fetching music from the database");
+        Music music = musicRepo.findById(id).orElseThrow(() -> new RuntimeException("music not found"));
+        music.setImage(ImageUtils.compressImage(image));
+        return musicDTOMapper.apply(musicRepo.save(music));
     }
 
     @Override
@@ -83,5 +103,17 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public List<ESMusic> getAll(String name, int offset, int pageSize) {
         return esMusicRepo.findByName(name, PageRequest.of(offset, pageSize));
+    }
+
+    @Override
+    public List<ESMusic> searchMusicsByMoreThanOneField(String name, UUID id) {
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(multiMatchQuery("tutorial")
+                        .field("name")
+                        .field("musicId")
+                        .type(MultiMatchQueryBuilder.Type.BEST_FIELDS))
+                .build();
+
+        return elasticsearchRestTemplate.search(searchQuery, ESMusic.class).get().map(SearchHit::getContent).collect(Collectors.toList());
     }
 }
